@@ -1,22 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Chatbot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incognito chatbot</title>
+    <style>
+        /* Reset some basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .chat-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0077cc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0077cc;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            background-color: #0077cc;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005fa3;
+        }
+
+        .response-section {
+            margin-top: 20px;
+        }
+
+        .response-section p {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+
+        .response-section pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-button {
+            display: inline-block;
+            background-color: #28a745;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #218838;
+        }
+
+        .notice {
+            color: #777;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-	<center><h1>Csd chatbot</h1></center>
-	<form action="/" method="post">
-		<label for="">Enter here:</label>
-		<input type="text" placeholder="enter your query" name="chat">
-		<input type="submit" value="Send">
-	</form>	
-	{% if data %}
-	<label><strong>Your query:</strong></label><p>{{ data[0] }}</p>
-	<label><strong>My response:</strong></label><pre>{{ data[1] }}</pre>
-	{% else %}
-	<p>Wait first give query ...</p>
-	{% endif %}
+    <div class="chat-container">
+        <h1>Incognito chatbot</h1>
+        <form action="/" method="post">
+            <label for="chat">Enter your query:</label>
+            <input type="text" placeholder="Type your question here..." name="chat" required>
+            <input type="submit" value="Send">
+        </form>
+
+        {% if data %}
+        <div class="response-section">
+            <label><strong>Your query:</strong></label>
+            <p>{{ data[0] }}</p>
+            <label><strong>Chatbot's response:</strong></label>
+            <pre id="responseText">{{ data[1] }}</pre>
+            <button class="copy-button" onclick="copyResponse()">Copy Response</button>
+        </div>
+        {% else %}
+        <p class="notice">Enter a query to get a response...</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyResponse() {
+            const responseText = document.getElementById('responseText').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = responseText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            alert('Response copied to clipboard!');
+        }
+    </script>
 </body>
 </html>

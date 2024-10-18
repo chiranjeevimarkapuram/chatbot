@@ -15,6 +15,7 @@ def home():
         s=to_markdown(t.text)
         return render_template('index.html',data=(chat,s))
     return render_template('index.html')
+    
 if __name__=="__main__":
     genai.configure(api_key=config.api)
     model = genai.GenerativeModel('gemini-pro')
